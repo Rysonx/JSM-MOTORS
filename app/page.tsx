@@ -10,89 +10,151 @@ export default function Home() {
     // CAMBIO: Fondo principal a Slate-950 (Negro azulado muy oscuro)
     <main className="min-h-screen bg-[#0a0a0a] text-slate-100">
       
-      {/* Navbar: Fondo oscuro con borde sutil para separar */}
-      <nav className="fixed top-4 inset-x-0 z-[100] px-4 md:px-8">
-        <div className="max-w-7xl mx-auto h-24 md:h-28 bg-[#0a0a0a]/90 backdrop-blur-md border border-white/10 rounded-[2rem] flex items-center justify-between pr-6 md:pr-10 pl-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+     {/* Navbar: Diseño tipo Cápsula Industrial */}
+      <nav className="fixed top-6 inset-x-0 z-[100] px-4 md:px-8">
+        <div className="
+          max-w-7xl mx-auto 
+          h-20 md:h-24 
+          /* DEGRADADO: De gris oscuro metálico a negro profundo */
+          bg-gradient-to-b from-[#1a1a1a] via-[#0d0d0d] to-[#050505]
+          /* BORDE: Redondeado tipo cápsula y borde sutil con brillo superior */
+          rounded-full border border-white/10
+          /* SOMBRAS: Elevación y suavizado de bordes */
+          shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.05)]
+          flex items-center justify-between 
+          pr-4 md:pr-8 pl-4 md:pl-6 
+          overflow-hidden
+          backdrop-blur-sm
+        ">
           
-          {/* Contenedor del Logo: Pegado a la izquierda */}
+          {/* Contenedor del Logo: Ajustado para que no se corte */}
           <div className="flex items-center shrink-0 group">
-            <div className="relative w-[130px] md:w-[220px] h-[55px] md:h-[95px] overflow-hidden rounded-l-[1.8rem] rounded-r-[1.8rem] border-r border-white/10 shadow-inner">
-              {/* Capa de brillo metálico dinámico */}
-              <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-60"></div>
-              
+            <div className="relative w-[140px] h-[50px] md:w-[320px] md:h-[150px] flex items-center justify-center">
               <Image 
-                src="/img/JSMlogo.png" 
+                src="/img/logoPNG.png" 
                 alt="Logo JSMmotors" 
                 fill
-                className="object-cover object-center scale-[1.1] group-hover:scale-115 transition-transform duration-1000 brightness-110" 
+                className="
+                  object-contain object-left 
+                  scale-100 group-hover:scale-105 
+                  transition-transform duration-500 
+                  brightness-110 contrast-110
+                  /* Esto ayuda a limpiar bordes si el PNG tiene residuos negros */
+                  mix-blend-lighten
+                " 
                 priority
               />
-
-              {/* Degradado radial agresivo para fundir las orillas */}
-              <div className="absolute inset-0 z-10 bg-[radial-gradient(circle,_transparent_30%,_#000000_130%)]"></div>
             </div>
           </div>
 
-          {/* Sección Derecha: Navegación + Botón Estilo Metálico */}
-          <div className="flex items-center gap-4 md:gap-8">
-            {/* Links ocultos en móvil para no saturar */}
-            <div className="hidden lg:flex gap-8 text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">
-              <a href="#servicios" className="hover:text-white transition-colors">Servicios</a>
-              <a href="#contacto" className="hover:text-white transition-colors">Taller</a>
+          {/* Sección Derecha: Navegación + Botón */}
+          <div className="flex items-center gap-6 md:gap-10">
+            
+            {/* Links de navegación con espaciado industrial */}
+            <div className="hidden lg:flex gap-10 text-[11px] font-bold uppercase tracking-[0.25em] text-slate-400">
+              <a href="#servicios" className="hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all">
+                Servicios
+              </a>
+              <a href="#contacto" className="hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all">
+                Taller
+              </a>
             </div>
             
-            {/* Botón Reservar con diseño Industrial/Metálico */}
-            <BookingButton onMobileClick={() => setShowCalendar(true)} />
+            {/* Botón Reservar: Asegúrate de que el componente BookingButton 
+                tenga el degradado blanco/gris que vimos en la imagen anterior */}
+            <div className="scale-90 md:scale-100">
+              <BookingButton onMobileClick={() => setShowCalendar(true)} />
+            </div>
+            
           </div>
 
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center text-center pt-[130px] md:pt-[200px] px-4 pb-12 md:px-6 md:pb-24">
+      <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden">
         
-        {/* Etiqueta superior */}
-        <div className="animate-in fade-in slide-in-from-top-4 duration-1000">
-          <span className="text-slate-500 font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs mb-6 block">
-            Servicios Automotrices de Alto Rendimiento
-          </span>
-        </div>
-        
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-8 leading-[1.1] max-w-5xl text-white">
-          Especialistas en mecánica <br className="hidden md:block"/>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-slate-400 to-slate-100">
-            integral y mantenimiento
-          </span>
-        </h1>
-
-        <p className="text-base md:text-xl text-slate-400 max-w-2xl mb-12 px-2 leading-relaxed">
-          En <span className="font-bold text-slate-200">JSMmotors</span>, cuidamos tu motor con precisión técnica y estándares de calidad profesional.
-        </p>
-
-        {/* Botones */}
-        <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto px-6 sm:px-0 mb-20">
-          <button className="bg-white text-black hover:bg-slate-200 transition-all px-10 py-4 rounded-2xl font-black uppercase tracking-tighter text-lg shadow-xl w-full sm:w-auto active:scale-95">
-            Nuestros Servicios
-          </button>
-          <a href="#contacto" className="bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 px-10 py-4 rounded-2xl font-black uppercase tracking-tighter text-lg text-center w-full sm:w-auto transition-all active:scale-95">
-            Ubicación Taller
-          </a>
-        </div>
-
-        {/* Imagen con degradado a Negro */}
-        <div className="mt-16 w-full max-w-5xl aspect-video bg-[#1a1a1a] rounded-3xl flex items-center justify-center overflow-hidden relative border border-slate-800">
+        <div className="absolute inset-0 z-0">
           <Image 
-            src="/img/JSMlogo.png" // CAMBIAR: Imagen de motores/taller
-            alt="Taller JSMmotors"
-            width={1024}
-            height={576}
-            className="object-cover w-full h-full rounded-3xl opacity-70"
+            src="/img/JSMlogo.png" 
+            alt="Fondo JSMmotors"
+            fill
+            className="object-cover opacity-30 md:opacity-40" // Opacidad baja para que el texto sea legible
             priority 
           />
-          {/* El degradado ahora desvanece hacia el negro del fondo (#0a0a0a) */}
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0a0a0a] to-transparent"></div>
+          {/* Overlay de degradado: Oscurece arriba para el Navbar y abajo para fundir con la siguiente sección */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-transparent to-[#0a0a0a]"></div>
+          {/* Capa extra de oscuridad radial para centrar la atención en el texto */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle,_transparent_20%,_#0a0a0a_100%)] opacity-70"></div>
         </div>
+
+        <div className="relative z-10 flex flex-col items-center text-center pt-[130px] md:pt-[200px] px-4 pb-12 md:px-6 md:pb-24 max-w-7xl mx-auto">
+          {/* Etiqueta superior */}
+          <div className="animate-in fade-in slide-in-from-top-4 duration-1000">
+            <span className="text-slate-500 font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs mb-6 block">
+              Servicios Automotrices de Alto Rendimiento
+            </span>
+          </div>
+          
+          <h1 className="text-[1.8rem] md:text-5xl lg:text-6xl font-[900] mb-10 
+                /* Reducimos el interlineado drásticamente */
+                leading-[0.8] md:leading-[0.8] 
+                w-full max-w-9xl text-white tracking-tighter italic text-center mx-auto uppercase">
+    
+            <span className="block drop-shadow-[0_5px_15px_rgba(255,255,255,0.1)] mb-1">
+              ESPECIALISTAS EN MECÁNICA
+            </span>
+
+            <span className="relative lg:text-7xl inline-block text-transparent bg-clip-text bg-[length:200%_auto] bg-gradient-to-r from-slate-100 via-slate-400 to-slate-100 animate-gradient-x pb-4 pr-2 md:pr-4">
+              INTEGRAL Y MANTENCIÓN
+              
+              {/* Subrayado "Racing" */}
+              <span className="absolute bottom-2 left-0 w-full h-[4px] md:h-[8px] bg-gradient-to-r from-red-600 via-red-400 to-transparent rounded-full opacity-90"></span>
+            </span>
+          </h1>
+
+          <p className="text-base md:text-xl text-slate-400 max-w-2xl mb-12 px-2 leading-relaxed">
+            En <span className="font-bold text-slate-200">JSMmotors</span>, cuidamos tu motor con precisión técnica y estándares de calidad profesional.
+          </p>
+
+          {/* Botones */}
+          <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto px-6 sm:px-0 mb-20">
+            <button className="bg-white text-black hover:bg-slate-200 transition-all px-10 py-4 rounded-2xl font-black uppercase tracking-tighter text-lg shadow-xl w-full sm:w-auto active:scale-95">
+              Nuestros Servicios
+            </button>
+            <a href="#contacto" className="bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 px-10 py-4 rounded-2xl font-black uppercase tracking-tighter text-lg text-center w-full sm:w-auto transition-all active:scale-95">
+              Ubicación Taller
+            </a>
+          </div>
+      </div>
       </section>
+        <div className="mt-12 max-w-4xl mx-auto px-6">
+          <div className="relative p-8 md:p-12 bg-gradient-to-br from-[#121212] to-[#0a0a0a] rounded-[2.5rem] border border-white/5 shadow-2xl overflow-hidden">
+            
+            {/* Efecto de luz ambiental sutil */}
+            <div className="absolute -top-24 -left-24 w-48 h-48 bg-slate-500/10 blur-[100px] rounded-full"></div>
+            
+            <p className="relative z-10 text-lg md:text-2xl text-slate-300 leading-relaxed font-medium italic">
+              "Porque en <span className="text-white font-black not-italic tracking-tighter">JSM motors</span> tu auto y tu tiempo es importante, y nosotros combinamos lo mejor para tu vehículo con la comodidad y seguridad que mereces."
+            </p>
+            
+            <div className="relative z-10 mt-8 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-12 border-t border-white/5 pt-8">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></div>
+                <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-slate-400">Servicio a Domicilio</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-slate-400"></div>
+                <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-slate-400">Taller Profesional</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-white"></div>
+                <span className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-slate-400">Garantía Real</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      
 
       {/* Sección de Servicios: Fondo Gris Oscuro */}
       <section id="servicios" className="py-20 bg-[#0f0f0f]">
@@ -105,9 +167,38 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Card de Servicio Estilo Dark */}
             {[
-              { title: "Mecánica General", desc: "Reparación y mantenimiento preventivo para todo tipo de motores.", icon: "M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
-              { title: "Diagnóstico Scanner", desc: "Detección precisa de fallas electrónicas con equipos de última generación.", icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" },
-              { title: "Mantención Preventiva", desc: "Cambios de aceite, filtros y revisión de puntos de seguridad.", icon: "M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" }
+             
+              { 
+                title: "Diagnóstico Scanner", 
+                desc: "Tecnología avanzada para leer el lenguaje de tu auto. Detectamos fallas electrónicas antes de que sean un problema.", 
+                icon: "M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z" 
+              },
+              { 
+                title: "Mantención Preventiva", 
+                desc: "Asegura la longevidad de tu inversión. Revisiones exhaustivas para que nunca te quedes detenido.", 
+                icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" 
+              },
+              { 
+                title: "Cambio de Aceite", 
+                desc: "Lubricación premium para reducir el desgaste. Utilizamos filtros y aceites de alta especificación.", 
+                icon: "M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" 
+              },
+              { 
+                title: "Frenos", 
+                desc: "Tu seguridad no es negociable. Rectificación, cambio de pastillas y optimización del sistema de frenado.", 
+                icon: "M12 21a9 9 0 100-18 9 9 0 000 18zm0-15v6l4 2" 
+              },
+              { 
+                title: "Distribución", 
+                desc: "Sincronización perfecta para tu motor. Reemplazo de kits de distribución para prevenir averías críticas.", 
+                icon: "M4.5 12a7.5 7.5 0 1115 0 7.5 7.5 0 01-15 0zM12 9v6m3-3H9" 
+              },
+              { 
+                title: "Embrague", 
+                desc: "Recupera la suavidad y potencia en cada cambio. Diagnóstico y sustitución de kits de embrague profesionales.", 
+                icon: "M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" 
+              }
+
             ].map((serv, index) => (
               <div key={index} className="bg-[#161616] p-8 rounded-2xl border border-slate-800 hover:border-slate-500 transition-all group">
                 <div className="w-12 h-12 bg-slate-800 text-slate-200 rounded-lg flex items-center justify-center mb-6 group-hover:bg-slate-100 group-hover:text-black transition-colors">
