@@ -12,7 +12,7 @@ export default function BookingButton({ onMobileClick }: { onMobileClick?: () =>
   const [isMobile, setIsMobile] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const btnStyle = "relative group overflow-hidden bg-gradient-to-b from-slate-200 to-slate-400 px-5 py-3 md:px-8 md:py-4 rounded-2xl shadow-[0_4px_15px_rgba(255,255,255,0.1)] active:scale-95 transition-all border-b-4 border-slate-500 flex items-center justify-center min-w-[140px] md:min-w-[180px]";
+  const btnStyle = "relative group overflow-hidden bg-gradient-to-b from-slate-200 to-slate-400 active:from-slate-400 active:to-slate-500 px-5 py-3 md:px-8 md:py-4 rounded-2xl shadow-[0_4px_15px_rgba(255,255,255,0.1)] transition-all border-b-4 border-slate-500 active:border-b-0 active:translate-y-[2px] flex items-center justify-center min-w-[140px] md:min-w-[180px]";
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -69,16 +69,18 @@ export default function BookingButton({ onMobileClick }: { onMobileClick?: () =>
             handlePcClick();
           }
         }}
-        className={btnStyle}
-      >
-        <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 pointer-events-none"></div>
-        <span className="relative z-10 flex items-center gap-2 text-black font-black uppercase tracking-tighter text-xs md:text-sm pointer-events-none">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 md:w-5 md:h-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-            </svg>
-            Agendar Hora
-        </span>
-      </button>
+       className={`${btnStyle} active:scale-95 active:brightness-90 touch-manipulation`}
+>
+  {/* El brillo que cruza el botón también se puede atenuar al presionar */}
+  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full active:opacity-0 transition-transform duration-500 pointer-events-none"></div>
+  
+  <span className="relative z-10 flex items-center gap-2 text-black font-black uppercase tracking-tighter text-xs md:text-sm pointer-events-none">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 md:w-5 md:h-5">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+    </svg>
+    Agendar Hora
+  </span>
+</button>
 
       <div 
         ref={containerRef} 

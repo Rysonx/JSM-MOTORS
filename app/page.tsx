@@ -1,19 +1,47 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import BookingButton from './components/BookingButton';
 
 export default function Home() {
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
 
+  useEffect(() => {
+  let lastY = window.scrollY;
+
+  const handleScroll = () => {
+    const currentY = window.scrollY;
+
+    if (Math.abs(currentY - lastY) < 10) return;
+
+    if (currentY > lastY && currentY > 100) {
+      setShowNavbar(false); // baja → se oculta
+    } else {
+      setShowNavbar(true); // sube → aparece
+    }
+
+    lastY = currentY;
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
   return (
     // CAMBIO: Fondo principal a Slate-950 (Negro azulado muy oscuro)
     <main className="min-h-screen bg-[#0a0a0a] text-slate-100">
       
      {/* Navbar: Diseño tipo Cápsula Industrial */}
-      <nav className="fixed top-6 inset-x-0 z-[100] px-4 md:px-8">
+      <nav
+  className={`
+    fixed top-6 inset-x-0 z-[100] px-4 md:px-8
+    transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
+    ${showNavbar ? 'translate-y-0 opacity-100' : '-translate-y-[120%] opacity-0'}
+  `}
+>
         <div className="
           max-w-7xl mx-auto 
+          backdrop-blur-md
           h-20 md:h-24 
           /* DEGRADADO: De gris oscuro metálico a negro profundo */
           bg-gradient-to-b from-[#1a1a1a] via-[#0d0d0d] to-[#050505]
@@ -29,7 +57,7 @@ export default function Home() {
           
           {/* Contenedor del Logo: Ajustado para que no se corte */}
           <div className="flex items-center shrink-0 group">
-            <div className="relative w-[140px] h-[50px] md:w-[320px] md:h-[150px] flex items-center justify-center">
+            <div className="relative w-[140px] h-[100px] md:w-[320px] md:h-[150px] flex items-center justify-center">
               <Image 
                 src="/img/logoPNG.png" 
                 alt="Logo JSMmotors" 
@@ -48,21 +76,16 @@ export default function Home() {
           </div>
 
           {/* Sección Derecha: Navegación + Botón */}
-          <div className="flex items-center gap-6 md:gap-10">
-            
-            {/* Links de navegación con espaciado industrial */}
-            <div className="hidden lg:flex gap-10 text-[11px] font-bold uppercase tracking-[0.25em] text-slate-400">
-              <a href="#servicios" className="hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all">
-                Servicios
-              </a>
-              <a href="#contacto" className="hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all">
-                Taller
-              </a>
-            </div>
+          <div className="flex items-center gap-4 md:gap-8">
+          {/* Links de navegación */}
+          <div className="hidden lg:flex gap-8 text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">
+            <a href="#servicios" className="hover:text-white transition-colors">Servicios</a>
+            <a href="#contacto" className="hover:text-white transition-colors">Taller</a>
+          </div>
             
             {/* Botón Reservar: Asegúrate de que el componente BookingButton 
                 tenga el degradado blanco/gris que vimos en la imagen anterior */}
-            <div className="scale-90 md:scale-100">
+            <div className="scale-80 md:scale-100">
               <BookingButton onMobileClick={() => setShowCalendar(true)} />
             </div>
             
@@ -96,32 +119,87 @@ export default function Home() {
             </span>
           </div>
           
-          <h1 className="text-[1.8rem] md:text-5xl lg:text-6xl font-[900] mb-10 
-                /* Reducimos el interlineado drásticamente */
-                leading-[0.8] md:leading-[0.8] 
-                w-full max-w-9xl text-white tracking-tighter italic text-center mx-auto uppercase">
-    
-            <span className="block drop-shadow-[0_5px_15px_rgba(255,255,255,0.1)] mb-1">
+          <h1 className="
+            text-[1.8rem] sm:text-[2rem] md:text-5xl lg:text-7xl
+            font-[900]
+            leading-[1.05] md:leading-[0.8]
+            tracking-tight
+            text-center
+            uppercase
+            italic
+            mb-8 md:mb-10
+          ">
+
+            {/* MOBILE 👇 */}
+            <span 
+              className="
+                block md:hidden
+                text-[2rem] sm:text-[1.6rem]
+                leading-[1.1]
+                text-transparent
+                bg-clip-text
+                animate-gradient-x
+              "
+              style={{ 
+                backgroundImage: 'linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0)',
+                backgroundSize: '200% auto',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
               ESPECIALISTAS EN MECÁNICA
             </span>
 
-            <span className="relative lg:text-7xl inline-block text-transparent bg-clip-text bg-[length:200%_auto] bg-gradient-to-r from-slate-100 via-slate-400 to-slate-100 animate-gradient-x pb-4 pr-2 md:pr-4">
-              INTEGRAL Y MANTENCIÓN
-              
-              {/* Subrayado "Racing" */}
-              <span className="absolute bottom-2 left-0 w-full h-[4px] md:h-[8px] bg-gradient-to-r from-red-600 via-red-400 to-transparent rounded-full opacity-90"></span>
+            {/* DESKTOP 👇 */}
+            <span className="hidden md:block">
+              <span className="block drop-shadow-[0_5px_15px_rgba(255,255,255,0.1)] mb-1">
+                ESPECIALISTAS EN MECÁNICA
+              </span>
+
+              <span 
+                className="
+                  relative inline-block
+                  text-transparent
+                  bg-clip-text
+                  animate-gradient-x
+                  pb-4
+                "
+                style={{ 
+                  backgroundImage: 'linear-gradient(to right, #e2e8f0, #94a3b8, #e2e8f0)',
+                  backgroundSize: '200% auto',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
+                }}
+              >
+                INTEGRAL Y MANTENCIÓN
+
+                <span className="
+                  absolute bottom-2 left-0 w-full h-[6px]
+                  bg-gradient-to-r from-red-600 via-red-400 to-transparent
+                  rounded-full opacity-90
+                "></span>
+              </span>
             </span>
+
           </h1>
 
-          <p className="text-base md:text-xl text-slate-400 max-w-2xl mb-12 px-2 leading-relaxed">
+          <p className="
+            text-sm sm:text-base md:text-xl
+            text-slate-400
+            max-w-[350px] sm:max-w-md md:max-w-2xl
+            mb-10 md:mb-12
+            px-4 md:px-2
+            leading-snug
+            text-center
+          ">
             En <span className="font-bold text-slate-200">JSMmotors</span>, cuidamos tu motor con precisión técnica y estándares de calidad profesional.
           </p>
 
           {/* Botones */}
-          <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto px-6 sm:px-0 mb-20">
-            <button className="bg-white text-black hover:bg-slate-200 transition-all px-10 py-4 rounded-2xl font-black uppercase tracking-tighter text-lg shadow-xl w-full sm:w-auto active:scale-95">
+          <div className="flex flex-col gap-6 w-full px-6 mb-20 md:hidden">
+            <a href="#servicios" className="bg-white text-black hover:bg-slate-200 transition-all px-10 py-4 rounded-2xl font-black uppercase tracking-tighter text-lg shadow-xl w-full sm:w-auto active:scale-95">
               Nuestros Servicios
-            </button>
+            </a>
             <a href="#contacto" className="bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-800 px-10 py-4 rounded-2xl font-black uppercase tracking-tighter text-lg text-center w-full sm:w-auto transition-all active:scale-95">
               Ubicación Taller
             </a>
@@ -221,7 +299,7 @@ export default function Home() {
             <div>
               <h2 className="text-3xl font-bold text-white mb-6">Visítanos en el Taller</h2>
               <p className="text-slate-400 mb-8 text-lg">
-                Ubicados en **Angol**, estamos listos para recibir tu vehículo.
+                Ubicados en Temuco, estamos listos para recibir tu vehículo.
               </p>
               
               <div className="space-y-6">
@@ -234,13 +312,13 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-white">Dirección</h4>
-                    <p className="text-slate-400">Dirección de JSMmotors, Angol</p>
+                    <p className="text-slate-400">Dirección de JSMmotors, Temuco</p>
                   </div>
                 </div>
               </div>
 
               <a 
-                href="https://maps.app.goo.gl/cscJ1U3AwFp9xd6g6" 
+                href="https://maps.app.goo.gl/Sv3aBBoZrmsQoLoR6" 
                 target="_blank"
                 className="inline-block mt-10 bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all"
               >
@@ -251,7 +329,7 @@ export default function Home() {
             {/* Mapa con filtro Dark */}
             <div className="w-full h-[450px] rounded-3xl overflow-hidden shadow-xl border border-slate-800 grayscale-0 lg:grayscale-[0.8] lg:hover:grayscale-0 transition-all">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.8435846888165!2d-72.69816068868431!3d-37.79370527186369!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966bb345cf0b4667%3A0xf70b9b8249643df!2sLos%20Confines%20601%2C%20Angol%2C%20Araucan%C3%ADa!5e0!3m2!1ses-419!2scl!4v1776404119924!5m2!1ses-419!2scl" // Mantén tu URL real aquí
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.926501544527!2d-72.58354419999999!3d-38.7424488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9614d3d8e4438fc9%3A0x550e634c5c7dab3b!2sAndr%C3%A9s%20Bello%201372%2C%204791322%20Temuco%2C%20Araucan%C3%ADa!5e0!3m2!1ses-419!2scl!4v1777495330784!5m2!1ses-419!2scl" // Mantén tu URL real aquí
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -265,7 +343,7 @@ export default function Home() {
 
       {/* WhatsApp: Mantenemos el color verde oficial pero suavizado */}
       <a
-        href="https://wa.me/56940981313?text=Hola%20JSMmotors,%20me%20gustaría%20agendar%20una%20revisión%20mecánica."
+        href="https://wa.me/56938653707?text=Hola%20JSMmotors,%20me%20gustaría%20agendar%20una%20revisión%20mecánica."
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-8 right-8 bg-[#25D366] text-white p-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:scale-110 active:scale-95 transition-all z-[100] flex items-center justify-center group"
